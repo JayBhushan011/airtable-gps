@@ -17,7 +17,7 @@
                 async (position) => {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
-                    const recordId = new URLSearchParams(window.location.search).get('recordId');
+                    const recordId = new URLSearchParams(window.location.search).get('recordid');
 
                     // Send to Netlify Function
                     try {
