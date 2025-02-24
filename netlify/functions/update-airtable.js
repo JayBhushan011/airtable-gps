@@ -22,7 +22,8 @@ exports.handler = async (event) => {
                 body: JSON.stringify({
                     "fields": {
                         "Latitude": parseFloat(lat),
-                        "Longitude": parseFloat(lng)
+                        "Longitude": parseFloat(lng),
+                        "Lat-Long":`${parseFloat(lat)},${parseFloat(lng)}`
                     }
                 })
             }
