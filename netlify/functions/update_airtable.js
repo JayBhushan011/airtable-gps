@@ -14,8 +14,8 @@ exports.handler = async (event) => {
                 },
                 body: {
                     "fields": {
-                        "Latitude": parseInt(lat),
-                        "Longitude": parseInt(lng)
+                        "Latitude": 7,
+                        "Longitude": 8
                     }
                 }
             }
