@@ -8,6 +8,13 @@ process.env.AIRTABLE_API_KEY = 'patsScoQySipTIGUG.4c4679e99390113cea4517b12c6872
 
 exports.handler = async (event) => {
     const { recordId, lat, lng } = event.queryStringParameters;
+    
+    if (!recordId || !lat || !lng) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: "Missing parameters" }),
+        };
+      }
 
     try {
         const response = await fetch(
