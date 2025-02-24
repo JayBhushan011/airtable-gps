@@ -12,12 +12,12 @@ exports.handler = async (event) => {
                     'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
+                body: {
                     "fields": {
                         "Latitude": parseInt(lat),
                         "Longitude": parseInt(lng)
                     }
-                })
+                }
             }
         );
 
