@@ -15,12 +15,17 @@
             // Get GPS coordinates
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
+                    console.log("I am here");
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
+                    console.log(`Latitude is ${lat} and longitude is ${lng}`);
                     const recordId = new URLSearchParams(window.location.search).get('recordid');
+                    console.log(`rec id is ${recordId} `);
+
 
                     // Send to Netlify Function
                     try {
+                        console.log("I am here");
                         const response = await fetch(`/.netlify/functions/update-airtable?recordId=${recordId}&lat=${lat}&lng=${lng}`);
                         if (response.ok) {
                             statusEl.textContent = '✅ Location saved to Airtable!';
