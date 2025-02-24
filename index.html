@@ -4,58 +4,39 @@
     <title>Get GPS Coordinates</title>
 </head>
 <body>
-    <button onclick="getLocation()">Get GPS Coordinates</button>
-    <script>
-        function getLocation() {
-            if (!navigator.geolocation) {
-                alert("Geolocation is not supported by your browser.");
-                return;
-            }
+    <button id="getLocationBtn">Get My Location</button>
+    <p id="status"></p>
 
-            // Request GPS access
+    <script>
+        document.getElementById('getLocationBtn').addEventListener('click', async () => {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = 'Getting location...';
+
+            // Get GPS coordinates
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
-                    
-                    // Extract the Airtable record ID from the URL
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const recordId = urlParams.get('recordId');
+                    const recordId = new URLSearchParams(window.location.search).get('recordId');
 
-                    // Update Airtable
+                    // Send to Netlify Function
                     try {
-                        const response = await fetch(
-                            `https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_TABLE_NAME/${recordId}`,
-                            {
-                                method: 'PATCH',
-                                headers: {
-                                    'Authorization': 'Bearer YOUR_API_KEY',
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    fields: {
-                                        "Latitude": lat,
-                                        "Longitude": lng
-                                    }
-                                })
-                            }
-                        );
-
+                        const response = await fetch(`/.netlify/functions/update-airtable?recordId=${recordId}&lat=${lat}&lng=${lng}`);
                         if (response.ok) {
-                            alert("Coordinates saved to Airtable!");
-                            window.close(); // Optional: Close the window after saving
+                            statusEl.textContent = '✅ Location saved to Airtable!';
+                            window.close(); // Close the window after 2 seconds
                         } else {
-                            alert("Failed to update Airtable.");
+                            statusEl.textContent = '❌ Failed to save.';
                         }
                     } catch (error) {
-                        alert("Error: " + error.message);
+                        statusEl.textContent = '❌ Network error.';
                     }
                 },
                 (error) => {
-                    alert("Error getting location: " + error.message);
+                    statusEl.textContent = '❌ Allow location access to continue.';
                 }
             );
-        }
+        });
     </script>
 </body>
 </html>
