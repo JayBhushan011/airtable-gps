@@ -13,7 +13,7 @@ exports.handler = async (event) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    fields: {
+                    "fields": {
                         "Latitude": lat,
                         "Longitude": lng
                     }
