@@ -50,8 +50,8 @@ exports.handler = async (event) => {
                         "Latitude": parseFloat(lat),
                         "Longitude": parseFloat(lng),
                         "Lat-Long":`${parseFloat(lat)},${parseFloat(lng)}`,
-                        "Google Maps Link":"googleMapsLink",
-                        "Address":"address",
+                        "Google Maps Link": String(googleMapsLink),
+                        "Address":String(address),
                     }
                 })
             }
