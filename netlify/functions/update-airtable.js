@@ -27,8 +27,9 @@ exports.handler = async (event) => {
     }
 
     var googleMapsLink = "";
+    var address = "";
     try {
-        const address = lat && lng ? await getAddress(lat, lng) : "";
+        var address = lat && lng ? await getAddress(lat, lng) : "";
         var googleMapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "";
 
         console.log(`✅ Address generated! - ${address} and ${googleMapsLink}`);
