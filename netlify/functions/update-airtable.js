@@ -26,10 +26,10 @@ exports.handler = async (event) => {
         };
     }
 
-    
+    var googleMapsLink = "";
     try {
         const address = lat && lng ? await getAddress(lat, lng) : "";
-        const googleMapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "";
+        var googleMapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "";
 
         console.log(`✅ Address generated! - ${address} and ${googleMapsLink}`);
         } catch (error) {
@@ -50,7 +50,7 @@ exports.handler = async (event) => {
                         "Latitude": parseFloat(lat),
                         "Longitude": parseFloat(lng),
                         "Lat-Long":`${parseFloat(lat)},${parseFloat(lng)}`,
-                        "Google Maps Link": "(String(googleMapsLink))",
+                        "Google Maps Link": (String(googleMapsLink)),
                         "Address":"(address)"
                     }
                 })
