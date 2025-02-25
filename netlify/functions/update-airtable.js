@@ -26,8 +26,8 @@ exports.handler = async (event) => {
             }
     }
     try {
-        const address = await getAddress(lat, lng);
-        const googleMapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+        const address = lat && lng ? await getAddress(lat, lng) : "";
+        const googleMapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "";
 
         console.log(`✅ Address generated! - ${address} and ${googleMapsLink}`);
         } catch (error) {
@@ -51,7 +51,7 @@ exports.handler = async (event) => {
                         "Longitude": parseFloat(lng),
                         "Lat-Long":`${parseFloat(lat)},${parseFloat(lng)}`,
                         "Google Maps Link": String(googleMapsLink),
-                        "Address":String(address),
+                        "Address":"(address)"
                     }
                 })
             }
