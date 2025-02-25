@@ -1,5 +1,22 @@
 const fetch = require('node-fetch');
 
+//get google maps details
+async function getAddress(lat, lng) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GoogleMaps_API_KEY}`;
+    console.log(url)
+    try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.status === "OK") {
+            return data.results[0].formatted_address;
+            }
+            return "Address not found";
+        } catch (error) {
+            console.error("Error:", error);
+            return "Error";
+        }
+}
+
 exports.handler = async (event) => {
     const { recordId, lat, lng } = event.queryStringParameters;
     if (!recordId || !lat || !lng) {
@@ -9,22 +26,7 @@ exports.handler = async (event) => {
         };
     }
 
-    //get google maps details
-    async function getAddress(lat, lng) {
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GoogleMaps_API_KEY}`;
-        console.log(url)
-        try {
-                const response = await fetch(url);
-                const data = await response.json();
-                if (data.status === "OK") {
-                return data.results[0].formatted_address;
-                }
-                return "Address not found";
-            } catch (error) {
-                console.error("Error:", error);
-                return "Error";
-            }
-    }
+    
     try {
         const address = lat && lng ? await getAddress(lat, lng) : "";
         const googleMapsLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : "";
@@ -33,8 +35,6 @@ exports.handler = async (event) => {
         } catch (error) {
             console.log(`❌ Error: ${error.message}`);
     }
-
-
 
     try {
         const response = await fetch(
@@ -50,7 +50,7 @@ exports.handler = async (event) => {
                         "Latitude": parseFloat(lat),
                         "Longitude": parseFloat(lng),
                         "Lat-Long":`${parseFloat(lat)},${parseFloat(lng)}`,
-                        "Google Maps Link": String(googleMapsLink),
+                        "Google Maps Link": "(String(googleMapsLink))",
                         "Address":"(address)"
                     }
                 })
